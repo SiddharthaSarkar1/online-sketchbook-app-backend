@@ -6,14 +6,19 @@ import cors from "cors";
 const PORT = 8080;
 
 const app = express();
+
+const isDev = app.settings.env === "development";
+
+const URL = isDev ? "http://localhost:3000" : "https://sketchbook-sidd.vercel.app/"
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: URL,
   })
 );
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: "http://localhost:3000",
+  cors: URL,
 });
 
 io.on("connection", (socket) => {
